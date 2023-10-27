@@ -19,13 +19,13 @@
 #include <cpprealm/app.hpp>
 #include <cpprealm/internal/generic_network_transport.hpp>
 
+#include <CFNetwork/CFProxySupport.h>
+
 #include <Foundation/NSData.h>
 #include <Foundation/NSURL.h>
 #include <Foundation/NSURLCache.h>
-
 #include <Foundation/NSURLResponse.h>
 #include <Foundation/NSURLSession.h>
-#include <CFNetwork/CFProxySupport.h>
 
 #include <realm/util/base64.hpp>
 

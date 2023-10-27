@@ -2,8 +2,8 @@ add_subdirectory(cpprealm/internal/bridge/generator)
 
 include(GetVersion)
 # Configure source code to use right version number
-configure_file(${RealmCxx_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp.in ${RealmCxx_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp)
-install(FILES ${RealmCxx_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp
+configure_file(${cpprealm_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp.in ${cpprealm_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp)
+install(FILES ${cpprealm_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cpprealm/internal
         COMPONENT devel)
 

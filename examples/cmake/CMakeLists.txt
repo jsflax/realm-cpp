@@ -10,7 +10,7 @@ else ()
 endif()
 add_executable(realm_helloworld helloworld.cpp)
 
-find_package(cpprealm REQUIRED)
+find_package(cpprealm)
 if(NOT cpprealm_FOUND)
     Include(FetchContent)
     FetchContent_Declare(
