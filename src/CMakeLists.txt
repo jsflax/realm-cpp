@@ -189,7 +189,7 @@ set(REALM_EXPORTED_TARGETS
 export(TARGETS ${REALM_EXPORTED_TARGETS} NAMESPACE Realm:: FILE cpprealmTargets.cmake)
 
 configure_file(../tools/cmake/cpprealmConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/cpprealmConfig.cmake @ONLY)
-configure_file(../tools/cmake/AcquireRealmDependency.cmake ${CMAKE_CURRENT_BINARY_DIR}/AcquireRealmDependency.cmake @ONLY)
+configure_file(../realm-core/tools/cmake/AcquireRealmDependency.cmake ${CMAKE_CURRENT_BINARY_DIR}/AcquireRealmDependency.cmake @ONLY)
 
 # Make the project importable from the install directory
 install(EXPORT realm
@@ -204,10 +204,10 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cpprealmConfig.cmake
         COMPONENT devel
         )
 
-install(FILES ../tools/cmake/AcquireRealmDependency.cmake
-        DESTINATION lib/cmake/cpprealm
-        COMPONENT devel
-        )
+#install(FILES ../tools/cmake/AcquireRealmDependency.cmake
+#        DESTINATION lib/cmake/cpprealm
+#        COMPONENT devel
+#        )
 
 foreach(header ${HEADERS})
     get_filename_component(dir ${header} DIRECTORY)
