@@ -1,3 +1,39 @@
+X.Y.Z Release notes (YYYY-MM-DD)
+=============================================================
+
+### Fixed
+* None
+
+### Enhancements
+* Add support for HTTP tunneling. Usage:
+```cpp
+    realm::proxy_config proxy_config;
+    proxy_config.type = realm::proxy_config_type::HTTP;
+    proxy_config.port = 8080;
+    proxy_config.address = "127.0.0.1";
+    proxy_config.username_password = {"username", "password"};
+
+    realm::App::configuration app_config;
+    app_config.proxy_configuration = proxy_config;
+    auto app = realm::App(app_config);
+    
+    auto user = app.get_current_user();
+    auto sync_config = user->flexible_sync_configuration();
+    sync_config.set_proxy_config(proxy_config);
+    auto synced_realm = experimental::db(sync_config);
+```
+
+### Breaking Changes
+* None
+
+### Compatibility
+* Fileformat: Generates files with format v23. Reads and automatically upgrade from fileformat v5.
+
+### Internals
+* None
+
+----------------------------------------------
+
 0.4.0 Release notes (2022-10-17)
 =============================================================
 

@@ -1,30 +1,32 @@
 cmake_minimum_required(VERSION 3.15)
 
-project (hello)
+project (realm_helloworld)
 
 set(CMAKE_CXX_STANDARD 17)
-add_executable(hello helloworld.cpp)
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:preprocessor /bigobj")
+else ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+endif()
+add_executable(realm_helloworld helloworld.cpp)
 
-if (USE_REALM_LOCAL)
-    set(REALM_CPP_NO_TESTS 1)
-    add_subdirectory(../../ cmake-build-debug)
-else()
-    find_library(REALM_CPP_LIB NAMES cpprealm)
-    find_library(REALM_OS_LIB NAMES realm-object-store)
-    find_library(REALM_SYNC_LIB NAMES realm-sync)
-    find_library(REALM_LIB NAMES realm)
-    find_library(REALM_PARSER_LIB NAMES realm-parser)
+find_package(cpprealm REQUIRED)
+if(NOT cpprealm_FOUND)
+    Include(FetchContent)
+    FetchContent_Declare(
+            cpprealm
+            GIT_REPOSITORY https://github.com/realm/realm-cpp.git
+            GIT_TAG        origin/main
+    )
 
-    include_directories(/usr/local/include/ )
-    link_directories(/usr/local/bin/)
-    if (APPLE)
-        find_library(FOUNDATION_LIB Foundation)
-        find_library(SECURITY_LIB Security)
+    # The MakeAvailable command ensures the named dependencies have been populated
+    FetchContent_MakeAvailable(cpprealm)
+endif()
 
-        target_include_directories(hello PUBLIC /usr/local/include/ /usr/local/bin/)
-        target_link_libraries(hello ${REALM_CPP_LIB} ${REALM_OS_LIB} ${REALM_SYNC_LIB} ${REALM_LIB} ${REALM_PARSER_LIB} ${FOUNDATION_LIB} ${SECURITY_LIB} z -lcompression)
-    else()
-        set(REALM_HAVE_UV 1)
-        target_link_libraries(hello ${REALM_CPP_LIB} ${REALM_OS_LIB} ${REALM_SYNC_LIB} ${REALM_LIB} ${REALM_PARSER_LIB} z curl uv ssl crypto)
-    endif()
+set(REALM_HAVE_UV 1)
+target_link_libraries(realm_helloworld Realm::cpprealm)
+
+if(MSVC)
+    set_property(TARGET realm_helloworld PROPERTY
+                 MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
