@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(cpprealm)
+project(RealmCxx)
 
 if("$ENV{REALM_CI}" OR REALM_USE_CCACHE)
     include(cmake/ccache.cmake)
@@ -30,8 +30,8 @@ set(REALM_INSTALL_LIBEXECDIR)
 set(REALM_ENABLE_ENCRYPTION 1)
 
 list(APPEND CMAKE_MODULE_PATH
-        "${cpprealm_SOURCE_DIR}/tools/cmake" # for GetVersion
-        "${cpprealm_SOURCE_DIR}/realm-core/tools/cmake") # for GetGitRevisionDescription
+        "${RealmCxx_SOURCE_DIR}/tools/cmake" # for GetVersion
+        "${RealmCxx_SOURCE_DIR}/realm-core/tools/cmake") # for GetGitRevisionDescription
 if(NOT DEFINED REALMCXX_VERSION)
     # Get accurate git-describe version
     include(GetGitRevisionDescription)
@@ -52,6 +52,7 @@ else()
 endif()
 
 add_subdirectory(src)
+target_include_directories(cpprealm PUBLIC src)
 
 # on Apple platforms we use the built-in CFRunLoop
 # everywhere else it's libuv, except UWP where it doesn't build

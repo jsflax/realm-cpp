@@ -2,8 +2,8 @@ add_subdirectory(cpprealm/internal/bridge/generator)
 
 include(GetVersion)
 # Configure source code to use right version number
-configure_file(${cpprealm_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp.in ${cpprealm_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp)
-install(FILES ${cpprealm_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp
+configure_file(${RealmCxx_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp.in ${RealmCxx_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp)
+install(FILES ${RealmCxx_SOURCE_DIR}/src/cpprealm/internal/version_numbers.hpp
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cpprealm/internal
         COMPONENT devel)
 
@@ -170,44 +170,9 @@ target_include_directories(cpprealm PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-install(TARGETS cpprealm EXPORT realm
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT devel
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT devel
-        )
-
-# Make the project importable from the build directory
-set(REALM_EXPORTED_TARGETS
-        Storage
-        QueryParser
-        ObjectStore
-        Sync
-        cpprealm
-        )
-
-export(TARGETS ${REALM_EXPORTED_TARGETS} NAMESPACE Realm:: FILE cpprealmTargets.cmake)
-
-configure_file(../tools/cmake/cpprealmConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/cpprealmConfig.cmake @ONLY)
-configure_file(../realm-core/tools/cmake/AcquireRealmDependency.cmake ${CMAKE_CURRENT_BINARY_DIR}/AcquireRealmDependency.cmake @ONLY)
-
-# Make the project importable from the install directory
-install(EXPORT realm
-        NAMESPACE Realm::
-        FILE cpprealmTargets.cmake
-        DESTINATION lib/cmake/cpprealm
-        COMPONENT devel
-        )
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cpprealmConfig.cmake
-        DESTINATION lib/cmake/cpprealm
-        COMPONENT devel
-        )
-
-#install(FILES ../tools/cmake/AcquireRealmDependency.cmake
-#        DESTINATION lib/cmake/cpprealm
-#        COMPONENT devel
-#        )
+install(TARGETS cpprealm RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime)
+install(TARGETS cpprealm LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime)
+install(TARGETS cpprealm ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT devel)
 
 foreach(header ${HEADERS})
     get_filename_component(dir ${header} DIRECTORY)
@@ -219,4 +184,3 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cpprealm/internal/bridge/bridge_types.
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cpprealm/internal/bridge
         COMPONENT devel)
 install()
-
