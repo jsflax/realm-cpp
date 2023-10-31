@@ -7,9 +7,6 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick)
 add_subdirectory(../../../../realm-cpp realm-cpp)
 
 qt_add_executable(coffee
-    coffee_manager.hpp
-
-    coffee_manager.cpp
     main.cpp
 )
 
@@ -18,8 +15,18 @@ set_target_properties(coffee PROPERTIES
     MACOSX_BUNDLE TRUE
 )
 
+qt_add_qml_module(Barista
+    URI Barista
+    VERSION 1.0
+    SOURCES coffee_manager.hpp realm_models.hpp coffee_manager.cpp imports/Coffee/Constants.qml
+    NO_PLUGIN
+    OUTPUT_TARGETS BARISTA_DEPS
+)
+
+target_link_libraries(Barista PUBLIC cpprealm)
+
 target_link_libraries(coffee PUBLIC
-    cpprealm
+    Barista
     Qt::Core
     Qt::Gui
     Qt::Qml
