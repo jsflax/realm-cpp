@@ -3,13 +3,11 @@
 #include <cpprealm/sdk.hpp>
 #include <cpprealm/experimental/sdk.hpp>
 
-#if REALM_HAVE_UV
-#include <uv.h>
-#elif REALM_PLATFORM_APPLE
+#if __APPLE__
 #include <realm/util/cf_ptr.hpp>
 #include <CoreFoundation/CoreFoundation.h>
 #else
-#error "No EventLoop implementation selected"
+#include <uv.h>
 #endif
 
 namespace realm::experimental {

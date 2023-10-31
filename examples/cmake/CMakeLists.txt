@@ -10,21 +10,9 @@ else ()
 endif()
 add_executable(realm_helloworld helloworld.cpp)
 
-find_package(cpprealm)
-if(NOT cpprealm_FOUND)
-    Include(FetchContent)
-    FetchContent_Declare(
-            cpprealm
-            GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-            GIT_TAG        origin/main
-    )
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../realm-cpp ${CMAKE_CURRENT_BINARY_DIR}/realm-cpp)
 
-    # The MakeAvailable command ensures the named dependencies have been populated
-    FetchContent_MakeAvailable(cpprealm)
-endif()
-
-set(REALM_HAVE_UV 1)
-target_link_libraries(realm_helloworld Realm::cpprealm)
+target_link_libraries(realm_helloworld cpprealm)
 
 if(MSVC)
     set_property(TARGET realm_helloworld PROPERTY
