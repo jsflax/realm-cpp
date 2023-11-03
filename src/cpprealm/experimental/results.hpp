@@ -203,6 +203,20 @@ namespace realm::experimental {
             return managed<T, void>(internal::bridge::get<internal::bridge::obj>(this->m_parent, index), this->m_parent.get_realm());
         }
 
+        results<T> freeze() {
+            auto frozen_realm = m_parent.get_realm().freeze();
+            return results<T>(internal::bridge::results(frozen_realm, frozen_realm.table_for_object_type(managed<T>::schema.name)));
+        }
+
+        results<T> thaw() {
+            auto thawed_realm = m_parent.get_realm().thaw();
+            return results<T>(internal::bridge::results(thawed_realm, thawed_realm.table_for_object_type(managed<T>::schema.name)));
+        }
+
+        bool is_frozen() {
+            return m_parent.get_realm().is_frozen();
+        }
+
     protected:
         internal::bridge::results m_parent;
         template <auto> friend struct linking_objects;

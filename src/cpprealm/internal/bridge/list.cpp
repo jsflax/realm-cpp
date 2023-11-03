@@ -5,6 +5,7 @@
 #include <cpprealm/internal/bridge/obj.hpp>
 #include <cpprealm/internal/bridge/table.hpp>
 
+#include "realm/object-store/shared_realm.hpp"
 #include <realm/object-store/list.hpp>
 
 namespace realm::internal::bridge {
